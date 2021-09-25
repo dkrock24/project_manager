@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories\Currencies;
+namespace Database\Factories\Projects;
 
-use App\Models\Currencies\Currency;
+use App\Models\Projects\Project;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CurrencyFactory extends Factory
+class ProjectFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Currency::class;
+    protected $model = Project::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,7 @@ class CurrencyFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->name,
-            'simbol' => '$',
-            'status' => 1
+            //
         ];
     }
 }
