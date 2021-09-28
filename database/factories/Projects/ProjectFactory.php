@@ -2,7 +2,9 @@
 
 namespace Database\Factories\Projects;
 
+use App\Models\User;
 use App\Models\Projects\Project;
+use App\Models\Companies\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProjectFactory extends Factory
@@ -22,7 +24,15 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->text,
+            'description' => $this->faker->text,
+            'owner_id' => function() {
+                return User::factory()->create()->id;
+            },
+            'status' => 1,
+            'company_id' => function() {
+                return Company::factory()->create()->id;
+            }
         ];
     }
 }
