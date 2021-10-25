@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjectCategory;
 use Illuminate\Http\Request;
+use App\Models\ProjectCategory;
+use Illuminate\Routing\Controller;
+use App\Http\Resources\ProjectCategoryResource;
 
 class ProjectCategoryController extends Controller
 {
+    private ProjectCategory $projectCategories;
+
+    public function __construct(ProjectCategory $projectCategories)
+    {
+        $this->projectCategories = $projectCategories;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,8 @@ class ProjectCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $projectCategories = $this->projectCategories->all();
+        return ProjectCategoryResource::collection($projectCategories);
     }
 
     /**

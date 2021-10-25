@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Resources\CategoryResource;
+use Illuminate\Routing\Controller;
 
 class CategoryController extends Controller
 {
+    private Category $category;
+
+    public function __construct(Category $category)
+    {
+        $this->category = $category;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $category = $this->category->all();
+        return CategoryResource::collection($category);
     }
 
     /**

@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use App\Http\Resources\TaskResource;
 
 class TaskController extends Controller
 {
+    private Task $tasks;
+
+    public function __construct(Task $tasks)
+    {
+        $this->tasks = $tasks;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = $this->tasks->all();
+        return TaskResource::collection($tasks);
     }
 
     /**

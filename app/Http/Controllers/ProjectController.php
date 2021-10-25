@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use App\Http\Resources\ProjectResource;
 
 class ProjectController extends Controller
 {
+    private Project $projects;
+
+    public function __construct(Project $projects)
+    {
+        $this->projects = $projects;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
+        $projects = $this->projects->all();
+        return ProjectResource::collection($projects);
     }
 
     /**

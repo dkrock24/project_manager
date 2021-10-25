@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use App\Http\Resources\RoleResource;
 
 class RoleController extends Controller
 {
+    private Role $roles;
+
+    public function __construct(Role $roles)
+    {
+        $this->roles = $roles;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = $this->roles->all();
+        return RoleResource::collection($roles);
     }
 
     /**

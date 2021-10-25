@@ -15,6 +15,7 @@ class CurrenciesController extends Controller
     {
         $this->currency = $currency;
     }
+
     /**
      * Display a listing of the resource.
      *

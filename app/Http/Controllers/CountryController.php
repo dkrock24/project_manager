@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Country;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use App\Http\Resources\CountryResource;
 
 class CountryController extends Controller
 {
+    private Country $country;
+
+    public function __construct(Country $country)
+    {
+        $this->country = $country;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,8 @@ class CountryController extends Controller
      */
     public function index()
     {
-        //
+        $country = $this->country->all();
+        return CountryResource::collection($country);
     }
 
     /**

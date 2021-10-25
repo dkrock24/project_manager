@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use App\Http\Resources\CompanyResource;
 
 class CompanyController extends Controller
 {
+    private Company $companies;
+
+    public function __construct(Company $companies)
+    {
+        $this->companies = $companies;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        //
+        $companies = $this->companies->all();
+        return CompanyResource::collection($companies);
     }
 
     /**
