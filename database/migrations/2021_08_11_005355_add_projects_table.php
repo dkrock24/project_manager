@@ -19,6 +19,7 @@ class AddProjectsTable extends Migration
             $table->string('description')->unique();
             $table->unsignedBigInteger('owner_id')->nullable();
             $table->foreign('owner_id')->references('id')->on('users');
+            $table->boolean('status')->default(0);
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ class CreateCompaniesTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->string('logo')->nullable();
+            //$table->integer('country_id')->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

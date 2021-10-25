@@ -17,7 +17,7 @@ class CreateCountriesTable extends Migration
             $table->id();
             $table->string('name',255);
             $table->text('description')->nullable();
-            $table->integer('currency_id')->nullable();
+            $table->integer('currency_id')->null();
             $table->string('flag',255)->nullable();
             $table->boolean('status')->default(0);
             $table->timestamps();
