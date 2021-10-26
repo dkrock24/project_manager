@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CurrencyResource;
 use App\Models\Currency;
 use Illuminate\Http\Request;
+use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\Controller;
+use App\Http\Requests\CurrencyRequest;
+use App\Http\Resources\CurrencyResource;
 
-class CurrenciesController extends Controller
+class CurrencyController extends Controller
 {
     private Currency $currency;
 
-    public function __construct(Currency $currency)
+    protected $auth;
+
+    public function __construct(Currency $currency, AuthManager $authManager)
     {
+        $this->auth = $authManager->guard('api');
         $this->currency = $currency;
     }
 
@@ -30,12 +35,13 @@ class CurrenciesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CurrencyRequest  $currencyRequest
+     * @return CurrencyResource $currency
      */
-    public function store(Request $request)
+    public function store(CurrencyRequest $currencyRequest)
     {
-        //
+        $currency = $this->currency->newQuery()->create($currencyRequest->validated());
+        return new CurrencyResource($currency);
     }
 
     /**
