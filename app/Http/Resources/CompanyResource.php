@@ -14,6 +14,23 @@ class CompanyResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $resource = $this->resource;
+        
+        $result =  [
+            'id' => $resource->id,
+            'name' => $resource->name,
+            'logo' => $resource->logo,
+            'status' => $resource->status,
+            'description' => $resource->description,
+            'country_id' => $resource->country_id
+        ];
+
+        if ($resource->relationLoaded('countries')) {
+            $result['country'] = $resource->countries;
+        } else {
+            $result['country'] = [];
+        }
+
+        return $result;
     }
 }

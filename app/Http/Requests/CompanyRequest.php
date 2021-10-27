@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Country;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CompanyRequest extends FormRequest
@@ -13,7 +14,7 @@ class CompanyRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,11 @@ class CompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required','string'],
+            'description' => ['required', 'string'],
+            'country_id' => ['integer','required','exists:'.Country::class.',id'],
+            'logo' => ['required', 'string'],
+            'status' => ['required', 'integer'],
         ];
     }
 }
