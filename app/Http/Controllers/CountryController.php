@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use App\Http\Requests\CountryRequest;
 use App\Http\Resources\CountryResource;
 
 class CountryController extends Controller
@@ -19,56 +20,60 @@ class CountryController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return CountryResource
      */
     public function index()
     {
-        $country = Country::with(['currencies'])->get();
+        $country = $this->country->with(['currencies'])->get();
         return CountryResource::collection($country);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  CountryRequest  $countryRequest
+     * @return CountryResource
      */
-    public function store(Request $request)
+    public function store(CountryRequest $countryRequest)
     {
-        //
+        $country = $this->country->newQuery()->create($countryRequest->validated());
+        return new CountryResource($country->load('currencies'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Country  $country
-     * @return \Illuminate\Http\Response
+     * @param  Country  $country
+     * @return CountryResource
      */
     public function show(Country $country)
     {
-        //
+        return new CountryResource($country->load('currencies'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Country  $country
-     * @return \Illuminate\Http\Response
+     * @param  CountryRequest  $countryRequest
+     * @param  Country  $country
+     * @return CountryResource
      */
-    public function update(Request $request, Country $country)
+    public function update(CountryRequest $countryRequest, Country $country)
     {
-        //
+        $country->update($countryRequest->validated());
+        return new CountryResource($country->load('currencies'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Country  $country
-     * @return \Illuminate\Http\Response
+     * @param  Country  $country
+     * @return JsonResponse|object
+     * @throws \Exception
      */
     public function destroy(Country $country)
     {
-        //
+        $country->delete();
+        return response()->noContent();
     }
 }

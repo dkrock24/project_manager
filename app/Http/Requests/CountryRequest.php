@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Currency;
+use App\Rules\AllExistsRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CountryRequest extends FormRequest
@@ -13,7 +15,7 @@ class CountryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +26,11 @@ class CountryRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => ['required','string'],
+            'description' => ['required', 'string'],
+            'currency_id' => ['integer','required','exists:'.Currency::class.',id'],
+            'flag' => ['required', 'string'],
+            'status' => ['required', 'integer'],
         ];
     }
 }
