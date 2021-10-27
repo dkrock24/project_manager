@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Currency;
-use Illuminate\Http\Request;
 use Illuminate\Auth\AuthManager;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\CurrencyRequest;
@@ -52,29 +51,32 @@ class CurrencyController extends Controller
      */
     public function show(Currency $currency)
     {
-        //
+        return new CurrencyResource($currency);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Currency  $currency
-     * @return \Illuminate\Http\Response
+     * @param CurrencyRequest  $currencyRequest
+     * @param Currency $currency
+     * @return CurrencyResource $currency
      */
-    public function update(Request $request, Currency $currency)
+    public function update(CurrencyRequest $currencyRequest, Currency $currency)
     {
-        //
+        $currency->update($currencyRequest->validated());
+        return new CurrencyResource($currency);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Currency  $currency
-     * @return \Illuminate\Http\Response
+     * @param Currency $currency
+     * @return JsonResponse|object
+     * @throws \Exception
      */
     public function destroy(Currency $currency)
     {
-        //
+        $currency->delete();
+        return response()->noContent();
     }
 }

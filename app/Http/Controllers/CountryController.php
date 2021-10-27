@@ -23,7 +23,7 @@ class CountryController extends Controller
      */
     public function index()
     {
-        $country = $this->country->all();
+        $country = Country::with(['currencies'])->get();
         return CountryResource::collection($country);
     }
 

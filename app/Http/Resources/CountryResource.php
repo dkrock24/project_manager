@@ -14,6 +14,24 @@ class CountryResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+
+        $resource = $this->resource;
+        
+        $result =  [
+            'id' => $resource->id,
+            'name' => $resource->name,
+            'flag' => $resource->flag,
+            'status' => $resource->status,
+            'description' => $resource->description,
+            'currency_id' => $resource->currency_id
+        ];
+
+        if ($resource->relationLoaded('currencies')) {
+            $result['currency'] = $resource->currencies;
+        } else {
+            $result['currency'] = [];
+        }
+
+        return $result;
     }
 }
